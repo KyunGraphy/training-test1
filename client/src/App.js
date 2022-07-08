@@ -3,7 +3,7 @@ import './App.css';
 import Navigation from './Components/Main/Navigation'
 import Slogan from './Components/Main/Slogan'
 import Login from './Components/Main/Login';
-import List from './Components/Main/List';
+import ProjectReel from './Components/Main/ProjectReel';
 
 function App() {
   const [login, setLogin] = useState(true)
@@ -15,7 +15,7 @@ function App() {
       <div className="App">
         <Navigation />
         <Slogan />
-        <List prjAPI={ prjAPI } />
+        <ProjectReel prjAPI={ prjAPI } />
       </div>
     );
   } else {
