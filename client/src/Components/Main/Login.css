@@ -1,15 +1,15 @@
 
 * {
     margin: 0;
-
+    padding: 0;
+    border: 0;
 }
 
 .login-container {
-    margin: 0;
-    width: auto;
-    height: auto;
+    width: 100%;
     display: flex;
-    flex: auto;
+    flex: left;
+    height: 100px;
 }
 
 
@@ -23,8 +23,8 @@
 }
 
 .create-profile-container{
-    height: 500px;
-    width: 500px;   
+    height: 100%;
+    width: 60%;   
     margin: 30px;
 }
 
@@ -78,8 +78,9 @@ button {
 }
 
 .illustration__image--person {
-    display: block;
+    display: inline-block;
     width: 100%;
+    height: 740px;
 }
 
 .illustration__feedback-wrapper {
