@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './App.css';
 import Navigation from './Components/Main/Navigation'
+import Slogan from './Components/Main/Slogan'
 import Login from './Components/Main/Login';
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     return (
       <div className="App">
         <Navigation />
+        <Slogan />
       </div>
     );
   } else {

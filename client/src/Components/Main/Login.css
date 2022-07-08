@@ -80,7 +80,7 @@ button {
 .illustration__image--person {
     display: inline-block;
     width: 100%;
-    height: 740px;
+    height: 100vh;
 }
 
 .illustration__feedback-wrapper {

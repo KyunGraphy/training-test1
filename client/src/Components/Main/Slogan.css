@@ -1,0 +1,20 @@
+.slogan {
+    height: 320px;
+    padding: 50px 72px;
+    background: linear-gradient(rgba(230, 100, 101, 0.24), rgb(145, 152, 229, 0.24));;
+    cursor: default;
+}
+
+.sloganTitle {
+    font-size: 32px;
+    font-weight: bold;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    word-spacing: 3px;
+    letter-spacing: 2px;
+}
+
+.sloganText {
+    margin: 12px 18px;
+    font-weight: 400;
+    word-spacing: 3px;
+}
