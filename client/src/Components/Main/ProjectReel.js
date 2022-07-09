@@ -24,13 +24,6 @@ function ProjectReel({ prjAPI }) {
           />
       ))}
 
-      {/* <Project />
-      <Project />
-      <Project />
-      <Project />
-      <Project />
-      <Project />
-      <Project /> */}
     </div>
   )
 }

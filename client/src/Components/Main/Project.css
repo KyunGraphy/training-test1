@@ -38,9 +38,13 @@
     font-weight: bold;
 }
 
+.projectAuthor {
+    color: gray;
+}
+
 .projectDdl {
     position: absolute;
     bottom: 10px;
     left: 8%;
-
+    color: gray;
 }
