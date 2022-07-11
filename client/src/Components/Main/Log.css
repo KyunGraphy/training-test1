@@ -1,6 +1,10 @@
 *{
     margin: 0;
+    padding: 0;
+    text-align: center;
   }
+
+
   .navbar-light {
     color: azure;
     position: absolute;
@@ -45,6 +49,9 @@
 
     }
     
+    form {
+      position: relative;
+    }
     .outer .form-control:focus {
       border-color: #167bff;
       box-shadow: none;
@@ -53,9 +60,10 @@
     .outer h3 {
       font-weight: bold;
       text-align: center;
-      margin-right: 55px;
+      /* margin-right: 40px; */
       line-height: 1;
       padding-bottom: 20px;
+
     }
     
     label{
@@ -76,9 +84,10 @@
     }
   
     .btn {
-      margin: 9px;
-      margin-left: 710px;
-      width: auto;
+      margin-top: 10px;
+      width: 200px;
+      left: 50%;
+      margin-bottom: 10px;
     }
 
     .form-group {

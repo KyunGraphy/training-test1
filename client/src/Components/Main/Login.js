@@ -2,7 +2,7 @@ import React from 'react';
 import { Alert } from "react-bootstrap";
 import { useEffect, useState } from 'react';
 import './Log.css'
-
+import Main from '../../Main';
 import Project from './Project';
 import Regis from '../../Regis';
 
