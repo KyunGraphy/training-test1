@@ -7,6 +7,7 @@ import Login from "./Components/Main/Login";
 // import Footer from "./Components/Main/Footer";
 import { Route, Routes } from "react-router-dom";
 import Main from "./Main";
+import Registration from "./Components/Main/Registertration";
 
 function App() {
   const [login, setLogin] = useState(true);
@@ -26,7 +27,13 @@ function App() {
       </div>
     );
   } else {
-    return <Login />;
+    return(
+      <div className="outer">
+        <div className="inner">
+          <Registration />
+        </div>
+      </div>
+   )
   }
 }
 
