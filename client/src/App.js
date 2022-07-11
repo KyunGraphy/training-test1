@@ -10,7 +10,7 @@ import Main from "./Main";
 import Registration from "./Components/Main/Registertration";
 
 function App() {
-  const [login, setLogin] = useState("");
+  const [login, setLogin] = useState(true);
 
   const prjAPI = "http://localhost:3004/projects";
 
