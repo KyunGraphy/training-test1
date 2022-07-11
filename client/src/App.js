@@ -4,7 +4,8 @@ import Navigation from "./Components/Main/Navigation";
 import Login from "./Components/Main/Login";
 import { Route, Routes } from "react-router-dom";
 import Main from "./Main";
-import Detail from "./Detail";
+import Registration from "./Components/Main/Registertration";
+import Overview from "./Components/Detail/Overview";
 
 function App() {
   const [login, setLogin] = useState(true);
@@ -17,13 +18,19 @@ function App() {
         <Navigation />
 
         <Routes>
-          <Route path="/" element={<Main prjAPI={prjAPI} />}/>
-          <Route path="/detail" element={<Detail />}/>
+          <Route path="/" element={<Main prjAPI={prjAPI} />} />
+          <Route path="/detail" element={<Overview />} />
         </Routes>
       </div>
     );
   } else {
-    return <Login />;
+    return (
+      <div className="outer">
+        <div className="inner">
+          <Registration />
+        </div>
+      </div>
+    );
   }
 }
 
