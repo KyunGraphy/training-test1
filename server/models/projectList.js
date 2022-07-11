@@ -14,7 +14,7 @@ const projectListSchema = new mongoose.Schema({
         required: true
     },
     p_benefit: {
-        type: Password,
+        type: String,
         required: true
     },
     p_req: {

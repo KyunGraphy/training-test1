@@ -6,7 +6,7 @@ const mongoose = require('mongoose')
 
 mongoose.connect(process.env.DB_ULR, {  useNewUrlParser: true   })
 const db = mongoose.connection
-db.on('error', err => console.error(error))
+db.on('error', (error) => console.error(error))
 db.once('open', () => console.log('connected to db'))
 
 app.use(express.json())
@@ -14,6 +14,9 @@ app.use(express.json())
 const projectRouter = require('./routes/projects')
 app.use('/projects', projectRouter)
 
-app.listen(27017, () => console.log('listening on port: ${port}'));
+const projectListRouter = require('./routes/projectLists')
+app.use('/projectLists', projectListRouter)
+
+app.listen(5000, () => console.log('listening on port: ${port} '));
 
 
