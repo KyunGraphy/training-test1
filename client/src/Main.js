@@ -3,8 +3,6 @@ import ProjectReel from "./Components/Main/ProjectReel";
 import Footer from "./Components/Main/Footer";
 
 function Main({ prjAPI }) {
-  console.log(prjAPI);
-
   return (
     <div className="Main">
       <Slogan />

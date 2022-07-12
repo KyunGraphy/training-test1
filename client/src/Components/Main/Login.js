@@ -1,92 +1,83 @@
-import React from 'react';
+import React from "react";
 import { Alert } from "react-bootstrap";
-import { useEffect, useState } from 'react';
-import './Log.css'
-import Main from '../../Main';
-import Project from './Project';
-import Regis from '../../Regis';
+import { useEffect, useState } from "react";
+import "./Log.css";
+import Main from "../../Main";
+import Project from "./Project";
+import Regis from "../../Regis";
 
-
-import App from '../../App';
-import Navigation from './Navigation';
+import App from "../../App";
+import Navigation from "./Navigation";
 // import React, { useState } from "react";
 
-
 function Login() {
-    const [emaillog, setEmaillog] = useState(" ");
-    const [passwordlog, setPasswordlog] = useState(" ");
-  
-    const [flag, setFlag] = useState(false);
-  
-    const [home, setHome] = useState(true);
-  
-    function handleLogin(e) {
-      e.preventDefault();
-      let pass = localStorage
-        .getItem("sanskarPassword")
-        .replace(/"/g, "");
-      let mail = localStorage.getItem("sanskarEmail").replace(/"/g, "");
-      
-  
-      if (!emaillog || !passwordlog) {
-        setFlag(true);
-        console.log("EMPTY");
-      } else if (passwordlog !== pass || emaillog !== mail) {
-        setFlag(true);
-      } else {
-        setHome(!home);
-        setFlag(false);
-      }
+  const [emaillog, setEmaillog] = useState(" ");
+  const [passwordlog, setPasswordlog] = useState(" ");
+
+  const [flag, setFlag] = useState(false);
+
+  const [home, setHome] = useState(true);
+
+  function handleLogin(e) {
+    e.preventDefault();
+    let pass = localStorage.getItem("sanskarPassword").replace(/"/g, "");
+    let mail = localStorage.getItem("sanskarEmail").replace(/"/g, "");
+
+    if (!emaillog || !passwordlog) {
+      setFlag(true);
+      console.log("EMPTY");
+    } else if (passwordlog !== pass || emaillog !== mail) {
+      setFlag(true);
+    } else {
+      setHome(!home);
+      setFlag(false);
     }
+  }
 
-  return (    
+  return (
     <div>
+      <div>
         <div>
-                    <div>
-                        {home ? (
-                            <form onSubmit={handleLogin}>
-                            <h3>LogIn</h3>
-                            <div className="form-group">
-                                <label>Email</label>
-                                <input
-                                type="email"
-                                className="form-control"
-                                placeholder="Enter email"
-                                onChange={(event) => setEmaillog(event.target.value)}
-                                />
-                            </div>
+          {home ? (
+            <form onSubmit={handleLogin}>
+              <h3>LogIn</h3>
+              <div className="form-group">
+                <label>Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  placeholder="Enter email"
+                  onChange={(event) => setEmaillog(event.target.value)}
+                />
+              </div>
 
-                            <div className="form-group">
-                                <label>Password</label>
-                                <input
-                                type="password"
-                                className="form-control"
-                                placeholder="Enter password"
-                                onChange={(event) => setPasswordlog(event.target.value)}
-                                />
-                            </div>
+              <div className="form-group">
+                <label>Password</label>
+                <input
+                  type="password"
+                  className="form-control"
+                  placeholder="Enter password"
+                  onChange={(event) => setPasswordlog(event.target.value)}
+                />
+              </div>
 
-                            <button type="submit" className="btn btn-dark btn-lg btn-block">
-                                Login
-                            </button>
+              <button type="submit" className="btn btn-dark btn-lg btn-block">
+                Login
+              </button>
 
-                            {flag && (
-                                <Alert color="primary" variant="warning">
-                                Fill correct Info else keep trying.
-                                </Alert>
-                            )}
-                            </form>
-                        ) : (
-                          <Regis />
-                        )}
-                        </div>
-                </div>
-
-            </div>
-
-  )
+              {flag && (
+                <Alert color="primary" variant="warning">
+                  Fill correct Info else keep trying.
+                </Alert>
+              )}
+            </form>
+          ) : (
+            <Regis />
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
-
-
-export default Login
+export default Login;

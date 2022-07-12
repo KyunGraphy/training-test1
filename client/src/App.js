@@ -6,6 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import Main from "./Main";
 import Registration from "./Components/Main/Registertration";
 import Overview from "./Components/Detail/Overview";
+import Detail from "./Detail";
 
 function App() {
   const [login, setLogin] = useState(true);
@@ -19,7 +20,7 @@ function App() {
 
         <Routes>
           <Route path="/" element={<Main prjAPI={prjAPI} />} />
-          <Route path="/detail" element={<Overview />} />
+          <Route path="/detail/:projectsId" element={<Detail prjAPI={prjAPI} />} />
         </Routes>
       </div>
     );

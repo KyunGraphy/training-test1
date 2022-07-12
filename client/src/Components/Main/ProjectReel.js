@@ -20,8 +20,8 @@ function ProjectReel({ prjAPI }) {
   return (
     <div className="projectReel">
       {projects.map((project) => (
-        <Link to="/detail">
-          <Project key={project.id} project={project} />
+        <Link to={"/detail/" + project.id} key={project.id}>
+          <Project project={project} />
         </Link>
       ))}
     </div>
