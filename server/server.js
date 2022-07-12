@@ -1,22 +1,11 @@
-require('dotenv').config()
-
 const express = require('express')
+const router = require('./src/routes/routeLogin')
+const connectDB = require('./src/service/connectDB')
+require('dotenv').config()
+const port = process.env.PORT
 const app = express()
-const mongoose = require('mongoose')
 
-mongoose.connect(process.env.DB_ULR, {  useNewUrlParser: true   })
-const db = mongoose.connection
-db.on('error', (error) => console.error(error))
-db.once('open', () => console.log('connected to db'))
-
+router(app)
 app.use(express.json())
-
-const projectRouter = require('./routes/projects')
-app.use('/projects', projectRouter)
-
-const projectListRouter = require('./routes/projectLists')
-app.use('/projectLists', projectListRouter)
-
-app.listen(5000, () => console.log('listening on port: ${port} '));
-
-
+connectDB.connect()
+app.listen(port, () => console.log(`port : ${port}`))
