@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import Content from './Components/Detail/Content';
 import Overview from './Components/Detail/Overview'
 
 function Detail({ prjAPI }) {
@@ -22,6 +23,7 @@ function Detail({ prjAPI }) {
   return (
     <div className='detail'>
       <Overview project={projects}/>
+      <Content project={projects}/>
     </div>
   )
 }

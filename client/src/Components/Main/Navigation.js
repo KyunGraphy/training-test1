@@ -5,7 +5,7 @@ function Navigation() {
   return (
     <div className='navigation'>
       <div className='navLeft'>
-        <a href='#'>SOCIALJECT</a>
+        <a href='/'>SOCIALJECT</a>
       </div>
       <div className='navRight'>
         <button className='btn'>Create Your Profile</button>
