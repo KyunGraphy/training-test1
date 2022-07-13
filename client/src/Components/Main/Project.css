@@ -48,3 +48,7 @@
     left: 8%;
     color: gray;
 }
+
+.skeleton-loading {
+    padding: 20px;
+}
