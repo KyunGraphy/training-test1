@@ -1,10 +1,22 @@
 const mongoose = require('mongoose');
 const organizationSchema = new mongoose.Schema({
-    projectList: [{ type: mongoose.Types.ObjectId, ref: 'Project' }],
-    userList: [{ type: mongoose.Types.ObjectId, ref: 'User' }],
+    projectList: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Project'
+    }],
+    userList: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }],
     Oname: {
         type: String,
-        required: true
+        required: true,
+        maxlenght: 10
+    },
+    Opassword: {
+        type: String,
+        required: true,
+        maxlenght: 10
     },
     OLocation: {
         type: String,
