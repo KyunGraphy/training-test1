@@ -24,10 +24,10 @@ const projectSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-    counter: {
+   /* counter: {
         type: Integer,
         default: 0,
-    }
+    }*/
 
 })
 
