@@ -29,6 +29,9 @@ const organizationSchema = new mongoose.Schema({
     OMail: {
         type: String,
         required: true
+    },
+    OUrlImg: {
+        type: String
     }
 
 })
