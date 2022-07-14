@@ -1,7 +1,7 @@
 const mongo = require('mongoose')
 require('dotenv').config()
 
-const url = process.env.DB_url
+const url = process.env.DB_Mogooose_url
 
 let connect = () => {
     try {
