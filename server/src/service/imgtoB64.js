@@ -2,7 +2,7 @@
 const express = require('express')
 const multer  = require('multer')
 const fs = require('fs')
-// const upload = multer({ dest: 'uploads/' })
+const upload = multer({ dest: 'uploads/' })
 
 let b64encode = () => {
     return base64_encode('')
