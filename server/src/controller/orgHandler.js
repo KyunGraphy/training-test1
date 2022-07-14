@@ -13,7 +13,6 @@ module.exports = {
                 orgMail
             } = req.body
             let ulrImgOrg = await cloudinary.uploader.upload(req.file.path)
-            console.log(ulrImgOrg)
             let existedOrgName = await Org.findOne({
                 Oname: orgName
             }).lean()
@@ -61,13 +60,13 @@ module.exports = {
                 OLocation: orgLocation,
                 ODesc: orgDesc,
                 OMail: orgMail,
-                OUrlImg:ulrImgOrg.url,
+                OUrlImg: ulrImgOrg.url,
                 projectList: [],
                 userList: []
 
             })
-           await newOrg.save()
-            
+            await newOrg.save()
+
             return res.json({
                 message: 'register success',
                 org: newOrg
@@ -86,7 +85,7 @@ module.exports = {
                 orgName,
                 orgPassword
             } = req.body
-            
+
             let org = await Org.findOne({
                 Oname: orgName
             }).lean()
