@@ -52,7 +52,7 @@ module.exports = {
             let userCreatePro = await User.findById(userID).lean()
             userCreatePro.projectList.push(project._id)
             await userCreatePro.save()
-            return res.status(200), json({
+            return res.status(200).json({
                 message: 'Create project success'
             })
         } catch (err) {
@@ -67,7 +67,7 @@ module.exports = {
             let userID = req.body
             let userProject = await User.findById(userID).lean()
             userProject.Project.find()
-            return res.status(302), json({
+            return res.status(302).json({
                 message: 'found'
             })
         } catch (err) {
@@ -78,16 +78,21 @@ module.exports = {
     },
     findAllUserOfOrg: async (req, res) => {
         try {
-
+            let orgID = req.body
+            let org = await Org.findById(orgID)
+            let orgUserList = org.userList.find()
+            res.send(orgUserList)
+            return res.status(302).json({ msg: 'List all users' })
         } catch (err) {
-            return res.status(400).json({
-                error: err
-            })
+            return res.status(400).json({ msg: err.message })
         }
     },
     findAllProjectOfOrg: async (req, res) => {
         try {
-           
+            let orgId = res.body
+            let orgProject = await Org.findById(orgId)
+            res.send(orgProject.Project.find())
+            return res.status(302).json({ msg: 'List all projects of organization' })
         } catch (err) {
             return res.status(400).json({ msg: err.message })
         }
