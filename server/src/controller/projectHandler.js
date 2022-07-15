@@ -2,28 +2,28 @@ const Project = require('../model/project')
 const Org = require('../model/organization')
 const User = require('../model/user')
 module.exports = {
-         
+
     addUsertoOrg: async (req, res) => {
         try {
-            let {userID,orgID} = req.body
-            let org = await Org.findById (orgID)
+            let { userID, orgID } = req.body
+            let org = await Org.findById(orgID)
             let userListOfOrg = org.userList
-            userListOfOrg.some(element =>{
+            userListOfOrg.some(element => {
                 if (element === userID) {
                     return res.status(400).json({
                         message: 'User has existed '
                     })
-                } 
+                }
             })
             userListOfOrg.push(userID)
             await org.save()
             console.log(org)
             return res.status(200).json({
-                message:'add user to Organization success'
+                message: 'add user to Organization success'
             })
-        } catch(err) {
+        } catch (err) {
             return res.status(200).json({
-                error : err
+                error: err
             })
         }
     },
@@ -61,9 +61,84 @@ module.exports = {
             })
         }
     },
-   
-    findAllProjectOfUser: async (req,res)=>{},
-    findAllUserOfOrg: async (req,res)=>{},
-    findAllProjectOfOrg: async (req,res)=>{}
+
+    findAllProjectOfUser: async (req, res) => {
+        try {
+            let userID = req.body
+            let userProject = await User.findById(userID).lean()
+            userProject.Project.find()
+            return res.status(302), json({
+                message: 'found'
+            })
+        } catch (err) {
+            return res.status(400).json({
+                error: err
+            })
+        }
+    },
+    findAllUserOfOrg: async (req, res) => {
+        try {
+
+        } catch (err) {
+            return res.status(400).json({
+                error: err
+            })
+        }
+    },
+    findAllProjectOfOrg: async (req, res) => {
+        try {
+           
+        } catch (err) {
+            return res.status(400).json({ msg: err.message })
+        }
+    },
+    getAllProjects: async (req, res) => {
+        try {
+            const project = await Project.find()
+            res.json(project)
+        } catch (err) {
+            return res.status(400).json({ msg: err.message })
+        }
+    },
+    updateProject: async (req, res) => {
+        try {
+            let {
+                pName,
+                pAbout,
+                pProgress,
+                pBenefit,
+                pReq,
+                pDeadlines
+            } = req.body
+            if (pName !== null) {
+                res.Project.projectName = pName
+            }
+            if (pAbout !== null) {
+                res.Project.projectAbout = pAbout
+            }
+            if (pProgress !== null) {
+                res.Project.projectProgress = pProgress
+            }
+            if (pDeadlines !== null) {
+                res.Project.projectDeadline = pDeadline
+            }
+            if (pBenefit !== null) {
+                res.Project.projectBenefit = pBenefit
+            }
+            if (pReq !== null) {
+                res.Project.projectRequirement = pReq
+            }
+            try {
+                const updatedProject = res.Project.save()
+                res.json(updatedProject)
+                res.status(201).json({ msg: 'Project updated successfully' })
+            } catch (err) {
+                res.status(422).json({ msg: err.message })
+            }
+        } catch (err) {
+            res.status(400).json({ msg: err.message })
+        }
+    },
+
 
 }
