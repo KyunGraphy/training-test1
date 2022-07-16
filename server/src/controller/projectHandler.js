@@ -3,27 +3,28 @@ const Org = require('../model/organization')
 const User = require('../model/user')
 
 module.exports = {
+
     addUsertoOrg: async (req, res) => {
         try {
-            let {userID,orgID} = req.body
-            let org = await Org.findById (orgID)
+            let { userID, orgID } = req.body
+            let org = await Org.findById(orgID)
             let userListOfOrg = org.userList
-            userListOfOrg.some(element =>{
+            userListOfOrg.some(element => {
                 if (element === userID) {
                     return res.status(400).json({
                         message: 'User has existed '
                     })
-                } 
+                }
             })
             userListOfOrg.push(userID)
             await org.save()
             console.log(org)
             return res.status(200).json({
-                message:'add user to Organization success'
+                message: 'add user to Organization success'
             })
-        } catch(err) {
+        } catch (err) {
             return res.status(200).json({
-                error : err
+                error: err
             })
         }
     },

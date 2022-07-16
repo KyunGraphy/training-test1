@@ -7,6 +7,7 @@ import Main from "./Main";
 import Registration from "./Components/Main/Registertration";
 import Overview from "./Components/Detail/Overview";
 import Detail from "./Detail";
+import Profile from "./Components/Profile/Profile";
 
 function App() {
   const [login, setLogin] = useState(true);
@@ -21,6 +22,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main prjAPI={prjAPI} />} />
           <Route path="/detail/:projectsId" element={<Detail prjAPI={prjAPI} />} />
+          <Route path="/profile" element={<Profile/>} />
         </Routes>
       </div>
     );

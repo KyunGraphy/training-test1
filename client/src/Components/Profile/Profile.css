@@ -1,0 +1,16 @@
+.profile {
+    width: 100%;
+}
+
+.profileInfo {
+    display: flex;
+    background-color: white;
+    padding: 20px 50px;
+    justify-content: space-between;
+}
+
+.profileProject {
+    display: flex;
+    padding: 32px 0px;
+    background-color: gainsboro;
+}
