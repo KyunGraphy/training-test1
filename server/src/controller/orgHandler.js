@@ -1,6 +1,7 @@
 const Org = require('../model/organization')
-const cloudinary = require('../config/cloudinaryConfig')
+const jwt = require('../service/jwtHandler')
 const bcrypt = require('bcrypt')
+const cloudinary = require('../service/cloudinaryConfig')
 const salt = 12
 module.exports = {
     register: async (req, res) => {
@@ -12,7 +13,9 @@ module.exports = {
                 orgDesc,
                 orgMail
             } = req.body
+            console.log(req.body)
             let ulrImgOrg = await cloudinary.uploader.upload(req.file.path)
+            
             let existedOrgName = await Org.findOne({
                 Oname: orgName
             }).lean()
@@ -72,8 +75,9 @@ module.exports = {
                 org: newOrg
             })
         } catch (err) {
+            console.log(err)
             return res.status(500).json({
-                msg: 'Error'
+                msg: JSON.stringify(err)
             })
         }
 
@@ -85,7 +89,7 @@ module.exports = {
                 orgName,
                 orgPassword
             } = req.body
-
+            console.log(req.body)
             let org = await Org.findOne({
                 Oname: orgName
             }).lean()
@@ -97,9 +101,18 @@ module.exports = {
             }
             let password = org.Opassword
             let checkPassword = bcrypt.compareSync(orgPassword, password)
+            console.log(org._id)
+            let tokens = await jwt.create(org)
+            res.cookie('refreshToken',tokens.refreshToken,{
+                httpOnly:true,
+                sameSite: 'None', secure: true, 
+                maxAge: 24 * 60 * 60 * 1000 
+            })
             if (checkPassword) {
                 res.status(200).json({
-                    msg: 'Login success'
+                    msg: 'Login success',
+                    accessToken: tokens.accessToken,
+                    organaziation: org
                 })
             } else {
                 res.status(400).json({

@@ -1,8 +1,8 @@
 const Project = require('../model/project')
 const Org = require('../model/organization')
 const User = require('../model/user')
+
 module.exports = {
-         
     addUsertoOrg: async (req, res) => {
         try {
             let {userID,orgID} = req.body
@@ -28,30 +28,32 @@ module.exports = {
         }
     },
     creatProByUser: async (req, res) => {
+        console.log(req.body)
         try {
             let {
                 userID,
-                projectName,
-                projectAbout,
-                projectProgress,
-                projectBenefit,
-                projectRequirement,
+                projectTitle,
+                projectAddress,
                 day,
                 month,
                 year
             } = req.body
+             
+            //let ulrImgOrg = await cloudinary.uploader.upload(req.file.path)
             let project = new Project({
-                projectName: projectName,
-                projectAbout: projectAbout,
-                projectProgress: projectProgress,
-                projectBenefit: projectBenefit,
-                projectRequirement: projectRequirement,
+                projectTitle: projectTitle,
+                projectAuthor: userID,
+                projectAddress: projectAddress,
+                projectAuthor:userID,
+                projectAvatar:'',
+                projectImage:'',
                 projectDeadline: `${day}/${month}/${year}`,
             })
             await project.save()
             let userCreatePro = await User.findById(userID).lean()
             userCreatePro.projectList.push(project._id)
             await userCreatePro.save()
+            console.log(userCreatePro)
             return res.status(200), json({
                 message: 'Create project success'
             })
@@ -62,8 +64,40 @@ module.exports = {
         }
     },
    
-    findAllProjectOfUser: async (req,res)=>{},
-    findAllUserOfOrg: async (req,res)=>{},
-    findAllProjectOfOrg: async (req,res)=>{}
+    findAllProjectOfUser: async (req,res)=>{
+        try {
+            let {userID} = req.body
+            let projectList = await User.findById(userID).lean().projectList
+            res.status(200).json({
+                allProject: projectList
+            })
+        } catch(err) {
+            res.status(500).json({error: err})
+        }
+    },
+    findAllUserOfOrg: async (req,res)=>{
+        try {
+            let {orgID} = req.body
+            let userList = await Org.findById(orgID).lean().userList
+            res.status(200).json({
+                allUser: userList
+            })
+        } catch(err) {
+            res.status(500).json({error: err})
+        }
+    },
+    findAllProjectOfOrg: async (req,res)=>{
+        try {
+            let {orgID} = req.body
+            let projectList = await Org.findById(orgID).lean().projectList
+            res.status(200).json({
+                allProject: projectList
+            })
+        }catch(err) {
+            res.status(500).json({
+                error: err
+            })
+        }
+    }
 
 }

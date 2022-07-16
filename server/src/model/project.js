@@ -1,26 +1,27 @@
 const mongoose = require('mongoose')
+const User = require('../model/user')
 const projectSchema = new mongoose.Schema({
-    projectName: {
+    projectTitle: {
         type: String,
         required: true,
     },
-    projectAbout: {
-        type: String,
-        required: true,
+    projectAuthor: {
+        type: mongoose.Types.ObjectId,
+        ref: 'Organization'
     },
-    projectProgress: {
-        type: String,
-        required: true,
-    },
-    projectBenefit: {
-        type: String,
-        required: true,
-    },
-    projectRequirement: {
+    projectAddress: {
         type: String,
         required: true,
     },
     projectDeadline: {
+        type: Date,
+        required: true,
+    },
+    projectAvatar: {
+        type: String,
+        required: true,
+    },
+    projectImage: {
         type: Date,
         required: true,
     },
