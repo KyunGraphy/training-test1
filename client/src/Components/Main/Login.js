@@ -2,13 +2,10 @@ import React from "react";
 import { Alert } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import "./Log.css";
-import Main from "../../Main";
-import Project from "./Project";
-import Regis from "../../Regis";
 
-import App from "../../App";
-import Navigation from "./Navigation";
-// import React, { useState } from "react";
+
+import ChooseUser from "./ChooseUser";
+
 
 function Login() {
   const [emaillog, setEmaillog] = useState(" ");
@@ -72,7 +69,7 @@ function Login() {
               )}
             </form>
           ) : (
-            <Regis />
+            <ChooseUser/>
           )}
         </div>
       </div>

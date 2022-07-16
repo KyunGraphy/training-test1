@@ -1,13 +1,15 @@
 import { useState } from "react";
 import "./App.css";
+
 import Navigation from "./Components/Main/Navigation";
 import Login from "./Components/Main/Login";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes,Link } from "react-router-dom";
 import Main from "./Main";
 import Registration from "./Components/Main/Registertration";
 import Overview from "./Components/Detail/Overview";
 import Detail from "./Detail";
 import Profile from "./Components/Profile/Profile";
+import ChooseUser from "./Components/Main/ChooseUser";
 
 function App() {
   const [login, setLogin] = useState(true);
@@ -28,10 +30,14 @@ function App() {
     );
   } else {
     return (
-      <div className="outer">
-        <div className="inner">
-          <Registration />
-        </div>
+      
+      <div className="Log">
+          {/* <ChooseUser/> */}
+          <Routes>
+            <Route path='/' element={<ChooseUser />}></Route>
+            <Route path="/Login" element={<Login />}></Route>
+            <Route path="/Regis" element={<Registration />}></Route>
+          </Routes>
       </div>
     );
   }
