@@ -29,6 +29,7 @@
 
 .projectText {
     position: absolute;
+    padding: 0px 16px;
     top: 64%;
     left: 8%;
 }

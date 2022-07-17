@@ -8,7 +8,7 @@ function ChooseUser() {
   return (
     <div id="root">
       <div>
-        <div class="container">
+        <div class="chooserContainer">
           <div class="choose-user-container">
             <div class="choose-user__title">Choose your type of user</div>
             <div class="choose-user__buttons-wrapper">
