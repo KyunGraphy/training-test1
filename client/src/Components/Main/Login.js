@@ -1,50 +1,64 @@
 import React from "react";
 import { Alert } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import "./Log.css";
 
 
-import ChooseUser from "./ChooseUser";
 
+import ChooseUser from "./ChooseUser";
+import Registration from "./Registertration";
 
 function Login() {
-  const [emaillog, setEmaillog] = useState(" ");
-  const [passwordlog, setPasswordlog] = useState(" ");
-
-  const [flag, setFlag] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [home, setHome] = useState(true);
 
-  function handleLogin(e) {
-    e.preventDefault();
-    let pass = localStorage.getItem("sanskarPassword").replace(/"/g, "");
-    let mail = localStorage.getItem("sanskarEmail").replace(/"/g, "");
-
-    if (!emaillog || !passwordlog) {
-      setFlag(true);
-      console.log("EMPTY");
-    } else if (passwordlog !== pass || emaillog !== mail) {
-      setFlag(true);
-    } else {
-      setHome(!home);
-      setFlag(false);
+    function handleFormSubmit(e) {
+       e.preventDefault();
+       setHome(!home)
     }
-  }
 
+    const handleEmail = (e) => {
+      setEmail(e.target.value)
+
+    } 
+    const handlePassword = (e) => {
+      setPassword(e.target.value)
+    }
+
+    const handleApi = () => {
+      console.log({email,password})
+      axios.post('http://localhost:3002/login',{
+        email: email,
+        password: password,
+      // })
+      // .then(result=>{
+      //   console.log(result)
+      // })
+      // .catch(error=>{
+      //   console.log(error)
+       })
+    }
   return (
     <div>
       <div>
         <div>
           {home ? (
-            <form onSubmit={handleLogin}>
-              <h3>LogIn</h3>
+            <form onSubmit={handleFormSubmit}>
+              <h3>Log In</h3>
               <div className="form-group">
                 <label>Email</label>
                 <input
                   type="email"
+                  value={email}
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                  title="Must be input email"
                   className="form-control"
                   placeholder="Enter email"
-                  onChange={(event) => setEmaillog(event.target.value)}
+                  onChange={handleEmail}
+                  required
                 />
               </div>
 
@@ -52,24 +66,22 @@ function Login() {
                 <label>Password</label>
                 <input
                   type="password"
+                  value={password}
+                  pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+                  title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
                   className="form-control"
                   placeholder="Enter password"
-                  onChange={(event) => setPasswordlog(event.target.value)}
+                  onChange={handlePassword}
+                  required
                 />
               </div>
 
-              <button type="submit" className="btn btn-dark btn-lg btn-block">
+              <button onClick={handleApi} type="submit" className="btn btn-dark btn-lg btn-block">
                 Login
               </button>
-
-              {flag && (
-                <Alert color="primary" variant="warning">
-                  Fill correct Info else keep trying.
-                </Alert>
-              )}
             </form>
           ) : (
-            <ChooseUser/>
+            <ChooseUser />
           )}
         </div>
       </div>

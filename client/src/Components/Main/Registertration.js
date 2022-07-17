@@ -1,34 +1,65 @@
 import React, { useState } from "react";
 import { Form, Alert } from "react-bootstrap";
 import Login from "./Login";
-
+import axios from "axios";
 function Registration() {
-  const [name, setName] = useState("");
+  const [fname, setFName] = useState("");
+  const [lname, setLName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phone, setPhone] = useState("");
   const [profession, setProfession] = useState("");
 
-  const [flag, setFlag] = useState(false);
   const [login, setLogin] = useState(true);
 
   function handleFormSubmit(e) {
-    e.preventDefault();
+     e.preventDefault();
+     setLogin(!Login)
+  }
 
-    if (!name || !email || !password || !phone || !profession) {
-      setFlag(true);
-    } else {
-      setFlag(false);
-      localStorage.setItem("sanskarEmail", JSON.stringify(email));
-      localStorage.setItem("sanskarPassword", JSON.stringify(password));
-      console.log("Saved in Local Storage");
+  const handleEmail = (e) => {
+    setEmail(e.target.value)
 
-      setLogin(!login);
-    }
+  } 
+
+  const handlePhone = (e) => {
+    setPhone(e.target.value)
+
+  } 
+
+  const handleFName = (e) => {
+    setFName(e.target.value)
+  } 
+
+  const handleLName = (e) => {
+    setLName(e.target.value)
+  } 
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value)
+  }
+
+  const handleApi = () => {
+    console.log({fname,lname,email,password,phone})
+
+    axios.post('http://localhost:3004/Register',{
+      fname: fname,
+      lname: lname,
+      email: email,
+      password: password,
+      phone: phone,
+
+    // })
+    // .then(result=>{
+    //   console.log(result)
+    // })
+    // .catch(error=>{
+    //   console.log(error)
+    })
   }
 
   function handleClick() {
-    setLogin(!login);
+     setLogin(!login);
   }
 
   return (
@@ -40,13 +71,30 @@ function Registration() {
             <h3>Register</h3>
 
             <div className="form-group">
-              <label>Name</label>
+              <label>First Name</label>
               <input
                 type="text"
+                value={fname}
+                title = " Must be input First Name"
                 className="form-control"
-                placeholder="Enter Full Name"
+                placeholder="Enter First Name"
                 name="name"
-                onChange={(event) => setName(event.target.value)}
+                onChange={handleFName}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label>Last Name</label>
+              <input
+                type="text"
+                value={lname}
+                className="form-control"
+                title = " Must be input Last Name"
+                placeholder="Enter Last Name"
+                name="name"
+                onChange={handleLName}
+                required
               />
             </div>
 
@@ -54,9 +102,13 @@ function Registration() {
               <label>Email</label>
               <input
                 type="email"
+                value={email}
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                title="Must be input email"
                 className="form-control"
                 placeholder="Enter email"
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={handleEmail}
+                required
               />
             </div>
 
@@ -64,9 +116,13 @@ function Registration() {
               <label>Password</label>
               <input
                 type="password"
+                value={password}
+                pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" 
+                title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
                 className="form-control"
                 placeholder="Enter password"
-                onChange={(event) => setPassword(event.target.value)}
+                onChange={handlePassword}
+                required
               />
             </div>
 
@@ -74,37 +130,22 @@ function Registration() {
               <label>Phone No.</label>
               <input
                 type="Phone"
+                value={phone}
                 className="form-control"
+                title = " Must be input Phone"
                 placeholder="Enter contact no"
-                onChange={(event) => setPhone(event.target.value)}
+                onChange={handlePhone}
+                required
               />
             </div>
 
-            <div className="form-group">
-              <label>Choose your Profession</label>
-              <Form.Control
-                as="select"
-                onChange={(event) => setProfession(event.target.value)}
-              >
-                <option>Select</option>
-                <option>Artist</option>
-                <option>Photographer</option>
-                <option>Team Player</option>
-                <option>Full Stack</option>
-              </Form.Control>
-            </div>
-
-            <button type="submit" className="btn btn-dark btn-lg btn-block">
+            <button onClick={handleApi} type="submit" className="btn btn-dark btn-lg btn-block">
               Register
             </button>
             <p onClick={handleClick} className="forgot-password text-right">
               Already registered log in?
             </p>
-            {flag && (
-              <Alert color="primary" variant="danger">
-                I got it you are in hurry! But every Field is important!
-              </Alert>
-            )}
+
           </form>
         ) : (
           <Login />

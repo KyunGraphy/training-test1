@@ -1,5 +1,5 @@
 import React from "react";
-import { Route,Routes,Router,Link } from "react-router-dom";
+import { Route, Routes, Router, Link } from "react-router-dom";
 import "./ChooseUser.css";
 import Login from "./Login";
 import Registration from "./Registertration";
@@ -14,13 +14,18 @@ function ChooseUser() {
             <div class="choose-user__buttons-wrapper">
               <div class="choose-user__buttons">
                 {/* <Link to="/Login"><button class="choose-user__buttons--button--spu">Student</button></Link> */}
-                <a href="/Login"><button class="choose-user__buttons--button--spu">Student</button></a>
-                
-
+                <a href="/Regis">
+                  <button class="choose-user__buttons--button--spu">
+                    Student
+                  </button>
+                </a>
               </div>
               <div class="choose-user__buttons">
-                  <Link to="/Login"><button class="choose-user__buttons--button--ppu">Organization</button></Link>
-
+                <Link to="/Regis">
+                  <button class="choose-user__buttons--button--ppu">
+                    Organization
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -48,7 +53,6 @@ function ChooseUser() {
         </div>
       </div>
     </div>
-    
   );
 }
 
