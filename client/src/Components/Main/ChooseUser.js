@@ -13,12 +13,11 @@ function ChooseUser() {
             <div class="choose-user__title">Choose your type of user</div>
             <div class="choose-user__buttons-wrapper">
               <div class="choose-user__buttons">
-                {/* <Link to="/Login"><button class="choose-user__buttons--button--spu">Student</button></Link> */}
-                <a href="/Regis">
+                <Link to="/Login">
                   <button class="choose-user__buttons--button--spu">
                     Student
                   </button>
-                </a>
+                </Link>
               </div>
               <div class="choose-user__buttons">
                 <Link to="/Regis">
