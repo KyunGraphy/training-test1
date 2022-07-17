@@ -33,12 +33,12 @@ function Login() {
       axios.post('http://localhost:3002/login',{
         email: email,
         password: password,
-      // })
-      // .then(result=>{
-      //   console.log(result)
-      // })
-      // .catch(error=>{
-      //   console.log(error)
+      })
+       .then(result=>{
+         console.log(result)
+       })
+     .catch(error=>{
+         console.log(error)
        })
     }
   return (

@@ -49,12 +49,12 @@ function Registration() {
       password: password,
       phone: phone,
 
-    // })
-    // .then(result=>{
-    //   console.log(result)
-    // })
-    // .catch(error=>{
-    //   console.log(error)
+     })
+     .then(result=>{
+       console.log(result)
+     })
+     .catch(error=>{
+       console.log(error)
     })
   }
 
