@@ -4,21 +4,21 @@
     display: flex;
 }
 
-.projectImage {
+.detailProjectImage {
     width: 64px;
     height: 64px;
     object-fit: cover;
 }
 
-.projectTitle {
+.detailProjectTitle {
     margin: 0px 24px;
 }
 
-.projectTitle > b, .projectTitle > small {
+.detailProjectTitle > b, .detailProjectTitle > small {
     display: block;
 }
 
-.projectTitle > small {
+.detailProjectTitle > small {
     color: gray;
     font-size: 80%;
     margin-top: 4px;
