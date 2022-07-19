@@ -99,6 +99,15 @@ module.exports = {
                 error: err
             })
         }
+    },
+    findAll : async (req, res)=>{
+        try {
+            let projectList = await Project.find().lean()
+            
+            res.status(200).json(projectList)
+        } catch (err) {
+            res.status(500).json({msg: err.message})
+        }
     }
 
 }
