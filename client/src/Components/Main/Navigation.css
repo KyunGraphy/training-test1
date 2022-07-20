@@ -9,17 +9,20 @@
 }
 
 .navLeft {
-    text-decoration: none;
     font-size: 30px;
     font-weight: bold;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display:inline;
-    color: black;
     transition: 100ms ease-in;
     width: 70vh;
 }
 
-.navLeft:hover {
+.navLeft > a {
+    text-decoration: none;
+    color: black;
+}
+
+.navLeft > a:hover {
     color: darkcyan;
     text-decoration: none;
     transition: 400ms;
