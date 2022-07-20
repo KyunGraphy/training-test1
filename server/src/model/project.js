@@ -22,7 +22,7 @@ const projectSchema = new mongoose.Schema({
         required: true,
     },
     projectImage: {
-        type: Date,
+        type: String,
         required: true,
     },
    /* counter: {

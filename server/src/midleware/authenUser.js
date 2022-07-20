@@ -7,12 +7,8 @@ module.exports = {
             let token =  req.headers.accsesstoken
             jwt.verify(token,process.env.accessTokenSecret,(err,decoded)=>{
                 if (err) {return res.status(300).json({message: 'invalue token'})}
-                if (decoded.Oname === req.body.orgName) {
-                    req.decoded = decoded
-                    next()
-                } else {
-                    return res.status(300).json({message:'invalue token'})
-                }
+                req.decoded = decoded
+                next() 
             })
         } catch(err) {
             return res.status(400).json({

@@ -4,11 +4,11 @@ module.exports = {
     create: (usedID) => {
         return new Promise(async (resolve, reject) => {
             try {
-                console.log()
-                let token = jwt.sign(usedID, process.env.accessTokenSecret, {
+                console.log(usedID)
+                let token = jwt.sign({usedID}, process.env.accessTokenSecret, {
                     expiresIn: '10min'
                 })
-                let refresh = jwt.sign(usedID, process.env.refreshTokenSecret, {
+                let refresh = jwt.sign({usedID}, process.env.refreshTokenSecret, {
                     expiresIn: '24h'
                 })
                 resolve({

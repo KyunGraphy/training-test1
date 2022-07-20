@@ -1,9 +1,8 @@
 const Project = require('../model/project')
 const Org = require('../model/organization')
 const User = require('../model/user')
-
+const cloudinary = require('../service/cloudinaryConfig')
 module.exports = {
-
     addUsertoOrg: async (req, res) => {
         try {
             let { userID, orgID } = req.body
@@ -39,14 +38,13 @@ module.exports = {
                 month,
                 year
             } = req.body
-             
-            let ulrImgOrg = await cloudinary.uploader.upload(req.file.path)
+            let urlImgOrg = await cloudinary.uploader.upload(req.file.path)
             let project = new Project({
                 projectTitle: projectTitle,
                 projectAuthor: userID,
                 projectAddress: projectAddress,
                 projectAuthor:userID,
-                projectAvatar:ulrImgOrg,
+                projectAvatar:urlImgOrg.url,
                 projectImage:'',
                 projectDeadline: `${day}/${month}/${year}`,
             })
@@ -64,7 +62,40 @@ module.exports = {
             })
         }
     },
-   
+    creatProByOrg: async(req,res)=>{
+        try {
+            let {
+                orgID,
+                projectTitle,
+                projectAddress,
+                day,
+                month,
+                year
+            } = req.body
+            let urlImgOrg = await cloudinary.uploader.upload(req.file.path)
+            let project = new Project({
+                projectTitle: projectTitle,
+                projectAuthor: orgID,
+                projectAddress: projectAddress,
+                projectAvatar:'test1',
+                projectImage: urlImgOrg.url,
+                projectDeadline: `${day}/${month}/${year}`,
+            })
+            await project.save()
+            let orgCreatePro = await Org.findByIdAndUpdate(orgID,{$push:{projectList:project._id}})
+            await orgCreatePro.save()
+            return res.status(200).json({
+                message: 'Create project success',
+                org: orgCreatePro,
+                project
+            })
+        } catch (err) {
+            console.log(err)
+            return res.status(400).json({
+                error: err
+            })
+        }
+    },
     findAllProjectOfUser: async (req,res)=>{
         try {
             let {userID} = req.body

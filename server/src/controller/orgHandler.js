@@ -14,8 +14,8 @@ module.exports = {
                 orgDesc,
                 orgMail
             } = req.body
-            
             let urlImgOrg = await cloudinary.uploader.upload(req.file.path)
+            console.log(req.file)
             let existedOrgName = await Org.findOne({
                 Oname: orgName
             }).lean()
@@ -29,7 +29,6 @@ module.exports = {
                     msg: 'Organization is required'
                 })
             }
-
             if (!orgName) {
                 return res.status(400).json({
                     msg: 'Organization has existed'
@@ -56,7 +55,6 @@ module.exports = {
                     msg: 'Decripstion is required'
                 })
             }
-
             let newOrg = new Org({
                 Oname: orgName,
                 Opassword: hashPassword,
@@ -66,13 +64,13 @@ module.exports = {
                 OUrlImg: urlImgOrg.url,
                 projectList: [],
                 userList: []
-
             })
             await newOrg.save()
-
+            let tokens = await jwt.create(newOrg._id)
             return res.json({
                 message: 'register success',
-                org: newOrg
+                accessToken: tokens.accessToken,
+                refreshToken: tokens.refreshToken
             })
         } catch (err) {
             console.log(err)
@@ -80,8 +78,6 @@ module.exports = {
                 msg: JSON.stringify(err)
             })
         }
-
-
     },
     login: async (req, res) => {
         try {
@@ -93,7 +89,6 @@ module.exports = {
             let org = await Org.findOne({
                 Oname: orgName
             }).lean()
-            console.log(org)
             if (!org) {
                 return res.status(400).json({
                     msg: 'Incorrect password or OrganizationName'
@@ -101,16 +96,14 @@ module.exports = {
             }
             let password = org.Opassword
             let checkPassword = bcrypt.compareSync(orgPassword, password)
-            let tokens = await jwt.create(org)
-            res.cookie('refreshToken',tokens.refreshToken,{
-                httpOnly:true,
-                sameSite: 'None', secure: true, 
-                maxAge: 24 * 60 * 60 * 1000 
-            })
+            
+            let tokens = await jwt.create(org._id)
+           
             if (checkPassword) {
                 res.status(200).json({
                     msg: 'Login success',
-                    accessToken: tokens.accessToken
+                    accessToken: tokens.accessToken,
+                    refreshToken: tokens.refreshToken
                 })
             } else {
                 res.status(400).json({
@@ -125,6 +118,7 @@ module.exports = {
     addUser: async (req,res) =>{
         try {
             let {userName,orgName} = req.body
+            console.log(req.decoded)
             let user = await User.findOne({userName}).lean()
             let updatedOrg = await Org.findOneAndUpdate(
                 {orgName},
