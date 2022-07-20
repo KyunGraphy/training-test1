@@ -1,20 +1,22 @@
 const express = require('express');
+const jwt = require('../service/jwtHandler');
 const routes = express.Router();
-const user = require('../model/user');
+const cloudinary = require('../service/cloudinaryConfig');
+const User = require('../model/user');
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
 
 async function getUser(req, res, next) {
     try {
-        const user = await U.findById(req.params.userName)
+        const user = await User.findById(req.params.userName)
         if (user == null) {
             return res.status(404).json({ message: 'User not found' })
         }
     } catch (err) {
         return res.status(500).json({ message: err.message })
     }
-    res.user = user
-    next()
+    res.user = User;
+    next();
 }
 
 module.exports = {
@@ -30,6 +32,16 @@ module.exports = {
                 userPhoneNumber, 
                 userEmail,
             } = req.body;
+            let urlImgUser = await cloudinary.uploader.upload(req.file.path);
+            console.log(req.file);
+            let exitedUserName = await User.findOne({
+                userName: userName
+            }).lean();
+            if (exitedUserName){
+                return res.status(400).json({
+                    message: "User already exist !"
+                })
+            }
             if(!userName || typeof userName !== "string"){
                 return res.status(400).json({ 
                     message: "Username not accepted !"
@@ -55,45 +67,39 @@ module.exports = {
                     message: "Password not accepted !" 
                 });
             }
-            if(!password.length < 8){
-                return res.status(400).json({ 
-                    message: "password must have 8 characters or more !"
-                });
-            }
             if(!userEmail || typeof userEmail !== "string"){
                 return res.status(400).json({ 
                     message: "email invalid !"
                 });
             }
-            if(!userPhoneNumber || typeof userPhoneNumber !== "number" || phoneNumber.length <= 10){
+            if(!userPhoneNumber || typeof userPhoneNumber !== "number"){
                 return res.status(400).json({ 
-                    message: "phone number wrong or least to 10 characters"
+                    message: "phone number not accepted !"
                 });
             }
-            let hashedPassword = await bcrypt.hashSync(assword, saltRounds);
 
-            let newuser = new user({
+            let hashedPassword = bcrypt.hashSync(userPassword, saltRounds);
+
+            let newuser = new User({
                 username: userName,
-                password: hashedPassword,
+                userPassword: hashedPassword,
                 firstName: userFirstName,
                 lastName: userLastName,
                 fullName: userFullName,
                 email: userEmail,
-                phoneNumber: userPhoneNumber
+                phoneNumber: userPhoneNumber,
+                UserImg: urlImgUser
             });
             await newuser.save();
-            return res.status(200).json({ 
-                message: "Succesfully registered",
-                user: newuser
-            });
-        }
-        catch(err){
+            let tokens = await jwt.create(newuser._id);
+            return res.json({
+                message: "register success !",
+                accessToken: tokens.accessToken,
+                refreshToken: tokens.refreshToken
+            })
+        }catch(err){
             console.log(error);
-            console.log(json.stringify(err));
-            if(err.code === 11000){
-                return res.status(400).json({ message: "user already exists"});
-            }
-            return res.status(500).json({message: err.message});
+            return res.status(500).json("Internal server error");
         }
     },
 
@@ -101,28 +107,36 @@ module.exports = {
     login: async (req, res) => {
         try{
             let {
-                userName, userPassword
+                userName, 
+                userPassword
             } = req.body
-            let user = await user.findOne({ 
+            console.log(req.body);
+            let user = await User.findOne({ 
                 username: userName
             }).lean();
-            console.log(user);
             if (!user){
                 return res.status(400).json({ 
                     message: "User already exits!" 
                 });
             }
+            let tokens = await jwt.create(user._id)
             let password = user.userPassword
             let passwordcorrected = bcrypt.compareSync(userPassword, password);
             if (!passwordcorrected){
-                return res.status(400).json({ message: "Password incorrect!" });
+                return res.status(400).json({ 
+                    message: "Password incorrect!",
+                });
             } else {
-                return res.status(200).json({ message: "login successful!" });
+                return res.status(200).json({ 
+                    message: "login successful!",
+                    accessToken: tokens.accessToken,
+                    refreshToken: tokens.refreshToken
+                });
             }
         }
         catch(err){
             console.log(error);
-            return res.status(500).json({message: err.message});
+            return res.status(500).json("Internal server error");
         }
     },
 
@@ -163,10 +177,10 @@ module.exports = {
                 res.json(updatedUser)
                 res.status(201).json({msg: 'Updated successfully'})
             } catch (err) {
-                res.status(422).json({message: err.message})
+                res.status(422).json("Unprocessable Entity");
             }
         } catch (err) {
-            res.status(400).json({message: err.message})
+            res.status(400).json("Internal server error");
         }
     },
 
@@ -181,7 +195,7 @@ module.exports = {
                 message: 'User deleted successfully' 
             });
         } catch (err) {
-            return res.status(404).json({ message: err.message });
-        }
+            return res.status(404).json("Internal server error");
     }
-} 
+}
+}
