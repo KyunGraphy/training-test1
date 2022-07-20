@@ -2,7 +2,6 @@ const express = require('express')
 const routeOrg = require('../server/src/routes/routeOrganization')
 const connectDB = require('./src/service/connectDB')
 const cors = require('cors')
-const bodyparser = require('cookie-parser')
 const morgan = require('morgan')
 const routeProject = require('../server/src/routes/routeProject')
 require('dotenv').config()
@@ -14,7 +13,6 @@ app.use(cors({
 }))
 app.use(express.json())
 app.use(morgan())
-app.use(bodyparser())
 app.use(express.urlencoded({
     extended: true
 }));

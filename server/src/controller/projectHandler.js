@@ -40,13 +40,13 @@ module.exports = {
                 year
             } = req.body
              
-            //let ulrImgOrg = await cloudinary.uploader.upload(req.file.path)
+            let ulrImgOrg = await cloudinary.uploader.upload(req.file.path)
             let project = new Project({
                 projectTitle: projectTitle,
                 projectAuthor: userID,
                 projectAddress: projectAddress,
                 projectAuthor:userID,
-                projectAvatar:'',
+                projectAvatar:ulrImgOrg,
                 projectImage:'',
                 projectDeadline: `${day}/${month}/${year}`,
             })

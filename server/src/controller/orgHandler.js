@@ -2,6 +2,7 @@ const Org = require('../model/organization')
 const jwt = require('../service/jwtHandler')
 const bcrypt = require('bcrypt')
 const cloudinary = require('../service/cloudinaryConfig')
+const User = require('../model/user')
 const salt = 12
 module.exports = {
     register: async (req, res) => {
@@ -13,9 +14,8 @@ module.exports = {
                 orgDesc,
                 orgMail
             } = req.body
-            console.log(req.body)
-            let ulrImgOrg = await cloudinary.uploader.upload(req.file.path)
             
+            let urlImgOrg = await cloudinary.uploader.upload(req.file.path)
             let existedOrgName = await Org.findOne({
                 Oname: orgName
             }).lean()
@@ -63,7 +63,7 @@ module.exports = {
                 OLocation: orgLocation,
                 ODesc: orgDesc,
                 OMail: orgMail,
-                OUrlImg: ulrImgOrg.url,
+                OUrlImg: urlImgOrg.url,
                 projectList: [],
                 userList: []
 
@@ -101,7 +101,6 @@ module.exports = {
             }
             let password = org.Opassword
             let checkPassword = bcrypt.compareSync(orgPassword, password)
-            console.log(org._id)
             let tokens = await jwt.create(org)
             res.cookie('refreshToken',tokens.refreshToken,{
                 httpOnly:true,
@@ -111,20 +110,34 @@ module.exports = {
             if (checkPassword) {
                 res.status(200).json({
                     msg: 'Login success',
-                    accessToken: tokens.accessToken,
-                    organaziation: org
+                    accessToken: tokens.accessToken
                 })
             } else {
                 res.status(400).json({
                     msg: 'Password is wrong'
                 })
             }
-
         } catch (err) {
             console.log(err)
-
+            return res.status(500).json({error: JSON.stringfy(err)})
         }
+    },
+    addUser: async (req,res) =>{
+        try {
+            let {userName,orgName} = req.body
+            let user = await User.findOne({userName}).lean()
+            let updatedOrg = await Org.findOneAndUpdate(
+                {orgName},
+                {$addToSet:{userList:user._id}}
+            )
+            return res.status(200).json({
+                message: 'add user to org success',
+                update: updatedOrg
+            })
 
-
+        } catch(err) {
+            return res.status(500).json({error: err})
+        }
     }
+
 }
