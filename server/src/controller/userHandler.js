@@ -32,8 +32,8 @@ module.exports = {
                 userPhoneNumber, 
                 userEmail,
             } = req.body;
-            let urlImgUser = await cloudinary.uploader.upload(req.file.path);
-            console.log(req.file);
+            let urlImgUser = await cloudinary.uploader.upload(req.file.path)
+            console.log(req.file)
             let exitedUserName = await User.findOne({
                 userName: userName
             }).lean();
@@ -88,7 +88,7 @@ module.exports = {
                 fullName: userFullName,
                 email: userEmail,
                 phoneNumber: userPhoneNumber,
-                UserImg: urlImgUser
+                UserImg: urlImgUser.url
             });
             await newuser.save();
             let tokens = await jwt.create(newuser._id);
@@ -98,8 +98,8 @@ module.exports = {
                 refreshToken: tokens.refreshToken
             })
         }catch(err){
-            console.log(error);
-            return res.status(500).json("Internal server error");
+            console.log(err.message);
+            return res.status(500).json({message:err.message});
         }
     },
 
@@ -135,7 +135,7 @@ module.exports = {
             }
         }
         catch(err){
-            console.log(error);
+            console.log(err.message);
             return res.status(500).json("Internal server error");
         }
     },

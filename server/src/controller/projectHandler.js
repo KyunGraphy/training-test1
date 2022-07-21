@@ -23,11 +23,11 @@ module.exports = {
             })
         } catch (err) {
             return res.status(200).json({
-                error: err
+                message: err.message
             })
         }
     },
-    creatProByUser: async (req, res) => {
+    createProByUser: async (req, res) => {
         console.log(req.body)
         try {
             let {
@@ -58,11 +58,11 @@ module.exports = {
             })
         } catch (err) {
             return res.status(400).json({
-                error: err
+                message: err.message
             })
         }
     },
-    creatProByOrg: async(req,res)=>{
+    createProByOrg: async(req,res)=>{
         try {
             let {
                 orgID,
@@ -92,7 +92,7 @@ module.exports = {
         } catch (err) {
             console.log(err)
             return res.status(400).json({
-                error: err
+                message: err.message
             })
         }
     },
@@ -104,7 +104,7 @@ module.exports = {
                 allProject: projectList
             })
         } catch(err) {
-            res.status(500).json({error: err})
+            res.status(500).json({message: err.message})
         }
     },
     findAllUserOfOrg: async (req,res)=>{
@@ -115,7 +115,7 @@ module.exports = {
                 allUser: userList
             })
         } catch(err) {
-            res.status(500).json({error: err})
+            res.status(500).json({message: err.message})
         }
     },
     findAllProjectOfOrg: async (req,res)=>{
@@ -127,7 +127,7 @@ module.exports = {
             })
         }catch(err) {
             res.status(500).json({
-                error: err
+                message: err.message
             })
         }
     },
