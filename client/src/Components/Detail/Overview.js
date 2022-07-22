@@ -1,4 +1,5 @@
 import React from "react";
+import Navigation from "../Main/Navigation";
 import "./Overview.css";
 
 function Overview({ project }) {

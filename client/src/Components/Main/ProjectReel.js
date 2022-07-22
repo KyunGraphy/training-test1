@@ -22,8 +22,15 @@ function ProjectReel({ prjAPI }) {
   return (
     <div className="projectReel">
       {loading && <SkeletonLoading />}
-      {projects.map((project) => (
+
+      {/* {projects.map((project) => (
         <Link to={"/detail/" + project.id} key={project.id}>
+          <Project project={project} />
+        </Link>
+      ))} */}
+
+      {projects.map((project) => (
+        <Link to="/ChooseUser">
           <Project project={project} />
         </Link>
       ))}

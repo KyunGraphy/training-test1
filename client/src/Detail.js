@@ -3,6 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import Content from './Components/Detail/Content';
 import Overview from './Components/Detail/Overview'
+import Navigation from './Components/Main/Navigation';
+import { Link } from 'react-router-dom';
+import Project from './Components/Main/Project';
+
 
 function Detail({ prjAPI }) {
   const param = useParams();
@@ -22,6 +26,7 @@ function Detail({ prjAPI }) {
 
   return (
     <div className='detail'>
+      <Navigation/>
       <Overview project={projects}/>
       <Content project={projects}/>
     </div>
