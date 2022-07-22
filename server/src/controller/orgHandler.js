@@ -29,7 +29,7 @@ module.exports = {
                     msg: 'Organization is required'
                 })
             }
-            if (!orgPassword || orgPassword.lenght < 6) {
+            if (!orgPassword || orgPassword.length < 6) {
                 return res.status(400).json({
                     msg: 'Password has at least 6 characters'
                 })

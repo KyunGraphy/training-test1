@@ -1,4 +1,3 @@
-const jwt = require('../service/jwtHandler');
 const cloudinary = require('../service/cloudinaryConfig');
 const User = require('../model/user');
 const bcrypt = require('bcrypt');
@@ -57,7 +56,6 @@ module.exports = {
                     message: "User already exits!"
                 });
             }
-            //let tokens = await jwt.create(user._id)
             let password = user.userPassword
             let passwordcorrected = bcrypt.compareSync(userPassword, password);
             if (!passwordcorrected) {
