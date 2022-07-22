@@ -1,6 +1,5 @@
 const express = require('express');
 const jwt = require('../service/jwtHandler');
-const routes = express.Router();
 const cloudinary = require('../service/cloudinaryConfig');
 const User = require('../model/user');
 const bcrypt = require('bcrypt');
@@ -20,7 +19,6 @@ async function getUser(req, res, next) {
 }
 
 module.exports = {
-    //create account
     register: async (req, res) => {
         try{
             let{
@@ -32,73 +30,28 @@ module.exports = {
                 userPhoneNumber, 
                 userEmail,
             } = req.body;
-            let urlImgUser = await cloudinary.uploader.upload(req.file.path);
-            console.log(req.file);
-            let exitedUserName = await User.findOne({
-                userName: userName
-            }).lean();
-            if (exitedUserName){
-                return res.status(400).json({
-                    message: "User already exist !"
-                })
-            }
-            if(!userName || typeof userName !== "string"){
-                return res.status(400).json({ 
-                    message: "Username not accepted !"
-                });
-            }
-            if(!userFullName || typeof userFullName !== "string"){
-                return res.status(400).json({
-                    message: "Fullname not accepted !"
-                });
-            }
-            if(!userFirstName || typeof userFirstName !== "string"){
-                return res.status(400).json({ 
-                    message: "Firstname not accepted !"
-                });
-            }
-            if(!userLastName || typeof userLastName !== "string"){
-                return res.status(400).json({ 
-                    message: "Lastname not accepted !"
-                });
-            }
-            if(!userPassword || typeof userPassword !== "string"){
-                return res.status(400).json({ 
-                    message: "Password not accepted !" 
-                });
-            }
-            if(!userEmail || typeof userEmail !== "string"){
-                return res.status(400).json({ 
-                    message: "email invalid !"
-                });
-            }
-            if(!userPhoneNumber || typeof userPhoneNumber !== "number"){
-                return res.status(400).json({ 
-                    message: "phone number not accepted !"
-                });
-            }
-
-            let hashedPassword = bcrypt.hashSync(userPassword, saltRounds);
-
-            let newuser = new User({
-                username: userName,
+            let urlImgOrg = await cloudinary.uploader.upload(req.file.path)
+            let hashedPassword = bcrypt.hashSync(userPassword, saltRounds)
+            
+            let newUser = new User({
+                userName: userName,
                 userPassword: hashedPassword,
                 firstName: userFirstName,
                 lastName: userLastName,
-                fullName: userFullName,
-                email: userEmail,
-                phoneNumber: userPhoneNumber,
-                UserImg: urlImgUser
+                FullName: userFullName,
+                mail: userEmail,
+                phoneNo: userPhoneNumber,
+                projectList:[],
+                avatar: urlImgOrg.url
+                
             });
-            await newuser.save();
-            let tokens = await jwt.create(newuser._id);
+            await newUser.save()
             return res.json({
                 message: "register success !",
-                accessToken: tokens.accessToken,
-                refreshToken: tokens.refreshToken
+                user: newUser
             })
         }catch(err){
-            console.log(error);
+            console.log(err);
             return res.status(500).json("Internal server error");
         }
     },

@@ -19,7 +19,6 @@ module.exports = {
                 reject(err)
             }
         })
-
     },
     verifyToken: (token, secretKey) => {
         return new Promise(async (resolve, reject) => {

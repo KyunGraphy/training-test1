@@ -15,7 +15,7 @@ module.exports = {
                 orgMail
             } = req.body
             let urlImgOrg = await cloudinary.uploader.upload(req.file.path)
-            console.log(req.file)
+            
             let existedOrgName = await Org.findOne({
                 Oname: orgName
             }).lean()
@@ -27,11 +27,6 @@ module.exports = {
             if (!orgName || typeof orgName !== 'string') {
                 return res.status(400).json({
                     msg: 'Organization is required'
-                })
-            }
-            if (!orgName) {
-                return res.status(400).json({
-                    msg: 'Organization has existed'
                 })
             }
             if (!orgPassword || orgPassword.lenght < 6) {
@@ -70,6 +65,7 @@ module.exports = {
             return res.json({
                 message: 'register success',
                 accessToken: tokens.accessToken,
+                org:newOrg,
                 refreshToken: tokens.refreshToken
             })
         } catch (err) {
@@ -98,7 +94,7 @@ module.exports = {
             let checkPassword = bcrypt.compareSync(orgPassword, password)
             
             let tokens = await jwt.create(org._id)
-           
+             
             if (checkPassword) {
                 res.status(200).json({
                     msg: 'Login success',

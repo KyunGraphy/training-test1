@@ -1,8 +1,6 @@
 const mongo = require('mongoose')
 require('dotenv').config()
-
 const url = process.env.DB_Mogooose_url
-
 let connect = () => {
     try {
         mongo.connect(url, () => {
@@ -12,7 +10,6 @@ let connect = () => {
         console.log(err)
     }
 }
-
 module.exports = {
     connect
 }

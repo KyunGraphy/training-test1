@@ -25,11 +25,5 @@ const projectSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-   /* counter: {
-        type: Integer,
-        default: 0,
-    }*/
-
 })
-
 module.exports = mongoose.model('Project', projectSchema)
