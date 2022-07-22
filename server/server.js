@@ -1,10 +1,10 @@
 const express = require('express')
 const routeOrg = require('../server/src/routes/routeOrganization')
+const routeProject = require('../server/src/routes/routeProject')
+const routeUser = require('../server/src/routes/routeUser')
 const connectDB = require('./src/service/connectDB')
 const cors = require('cors')
-const morgan = require('morgan')
-const routeProject = require('../server/src/routes/routeProject')
-const routerUser = require('../server/src/routes/routeUser')
+const morgan = require('morgan') 
 require('dotenv').config()
 const port = process.env.PORT
 const app = express()
@@ -19,6 +19,7 @@ app.use(express.urlencoded({
 }));
 routeOrg(app)
 routeProject(app)
-routerUser(app)
+routeUser(app)
+
 connectDB.connect()
 app.listen(port, () => console.log(`port : ${port}`))

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose')
-const User = require('../model/user')
 const projectSchema = new mongoose.Schema({
     projectTitle: {
         type: String,
@@ -14,10 +13,6 @@ const projectSchema = new mongoose.Schema({
         required: true,
     },
     projectDeadline: {
-        type: Date,
-        required: true,
-    },
-    projectAvatar: {
         type: String,
         required: true,
     },

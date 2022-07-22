@@ -15,7 +15,7 @@ module.exports = {
                 orgMail
             } = req.body
             let urlImgOrg = await cloudinary.uploader.upload(req.file.path)
-            
+
             let existedOrgName = await Org.findOne({
                 Oname: orgName
             }).lean()
@@ -65,7 +65,7 @@ module.exports = {
             return res.json({
                 message: 'register success',
                 accessToken: tokens.accessToken,
-                org:newOrg,
+                org: newOrg,
                 refreshToken: tokens.refreshToken
             })
         } catch (err) {
@@ -92,9 +92,9 @@ module.exports = {
             }
             let password = org.Opassword
             let checkPassword = bcrypt.compareSync(orgPassword, password)
-            
+
             let tokens = await jwt.create(org._id)
-             
+
             if (checkPassword) {
                 res.status(200).json({
                     msg: 'Login success',
@@ -108,25 +108,37 @@ module.exports = {
             }
         } catch (err) {
             console.log(err)
-            return res.status(500).json({error: JSON.stringfy(err)})
+            return res.status(500).json({
+                error: JSON.stringfy(err)
+            })
         }
     },
-    addUser: async (req,res) =>{
+    addUser: async (req, res) => {
         try {
-            let {userName,orgName} = req.body
+            let {
+                userName,
+                orgName
+            } = req.body
             console.log(req.decoded)
-            let user = await User.findOne({userName}).lean()
-            let updatedOrg = await Org.findOneAndUpdate(
-                {orgName},
-                {$addToSet:{userList:user._id}}
-            )
+            let user = await User.findOne({
+                userName
+            }).lean()
+            let updatedOrg = await Org.findOneAndUpdate({
+                orgName
+            }, {
+                $addToSet: {
+                    userList: user._id
+                }
+            })
             return res.status(200).json({
                 message: 'add user to org success',
                 update: updatedOrg
             })
 
-        } catch(err) {
-            return res.status(500).json({error: err})
+        } catch (err) {
+            return res.status(500).json({
+                error: err
+            })
         }
     }
 

@@ -5,7 +5,10 @@ const cloudinary = require('../service/cloudinaryConfig')
 module.exports = {
     addUsertoOrg: async (req, res) => {
         try {
-            let { userID, orgID } = req.body
+            let {
+                userID,
+                orgID
+            } = req.body
             let org = await Org.findById(orgID)
             let userListOfOrg = org.userList
             userListOfOrg.some(element => {
@@ -34,35 +37,33 @@ module.exports = {
                 userID,
                 projectTitle,
                 projectAddress,
-                day,
-                month,
-                year
+                projectDeadline
             } = req.body
+            console.log(req.body)
             let urlImgOrg = await cloudinary.uploader.upload(req.file.path)
             let project = new Project({
                 projectTitle: projectTitle,
                 projectAuthor: userID,
                 projectAddress: projectAddress,
-                projectAuthor:userID,
-                projectAvatar:urlImgOrg.url,
-                projectImage:'',
-                projectDeadline: `${day}/${month}/${year}`,
+                projectAuthor: userID,
+                projectImage: urlImgOrg.url,
+                projectDeadline: projectDeadline,
             })
             await project.save()
-            let userCreatePro = await User.findById(userID).lean()
-            userCreatePro.projectList.push(project._id)
-            await userCreatePro.save()
-            console.log(userCreatePro)
-            return res.status(200), json({
+            let userCreatePro = await User.findOneAndUpdate({_id:userID},{$push:{projectList:project._id}})
+            console.log('user ',userCreatePro)
+            return res.status(200).json({
                 message: 'Create project success'
             })
         } catch (err) {
-            return res.status(400).json({
+            console.log(err)
+            return res.status(500).json({
                 error: err
             })
         }
-    },
-    creatProByOrg: async(req,res)=>{
+    }
+}
+/*creatProByOrg: async (req, res) => {
         try {
             let {
                 orgID,
@@ -77,12 +78,16 @@ module.exports = {
                 projectTitle: projectTitle,
                 projectAuthor: orgID,
                 projectAddress: projectAddress,
-                projectAvatar:'test1',
+                projectAvatar: 'test1',
                 projectImage: urlImgOrg.url,
                 projectDeadline: `${day}/${month}/${year}`,
             })
             await project.save()
-            let orgCreatePro = await Org.findByIdAndUpdate(orgID,{$push:{projectList:project._id}})
+            let orgCreatePro = await Org.findByIdAndUpdate(orgID, {
+                $push: {
+                    projectList: project._id
+                }
+            })
             await orgCreatePro.save()
             return res.status(200).json({
                 message: 'Create project success',
@@ -96,49 +101,59 @@ module.exports = {
             })
         }
     },
-    findAllProjectOfUser: async (req,res)=>{
+    findAllProjectOfUser: async (req, res) => {
         try {
-            let {userID} = req.body
+            let {
+                userID
+            } = req.body
             let projectList = await User.findById(userID).lean().projectList
             res.status(200).json({
                 allProject: projectList
             })
-        } catch(err) {
-            res.status(500).json({error: err})
-        }
-    },
-    findAllUserOfOrg: async (req,res)=>{
-        try {
-            let {orgID} = req.body
-            let userList = await Org.findById(orgID).lean().userList
-            res.status(200).json({
-                allUser: userList
-            })
-        } catch(err) {
-            res.status(500).json({error: err})
-        }
-    },
-    findAllProjectOfOrg: async (req,res)=>{
-        try {
-            let {orgID} = req.body
-            let projectList = await Org.findById(orgID).lean().projectList
-            res.status(200).json({
-                allProject: projectList
-            })
-        }catch(err) {
+        } catch (err) {
             res.status(500).json({
                 error: err
             })
         }
     },
-    findAll : async (req, res)=>{
+    findAllUserOfOrg: async (req, res) => {
+        try {
+            let {
+                orgID
+            } = req.body
+            let userList = await Org.findById(orgID).lean().userList
+            res.status(200).json({
+                allUser: userList
+            })
+        } catch (err) {
+            res.status(500).json({
+                error: err
+            })
+        }
+    },
+    findAllProjectOfOrg: async (req, res) => {
+        try {
+            let {
+                orgID
+            } = req.body
+            let projectList = await Org.findById(orgID).lean().projectList
+            res.status(200).json({
+                allProject: projectList
+            })
+        } catch (err) {
+            res.status(500).json({
+                error: err
+            })
+        }
+    },
+    findAll: async (req, res) => {
         try {
             let projectList = await Project.find().lean()
-            
+
             res.status(200).json(projectList)
         } catch (err) {
-            res.status(500).json({msg: err.message})
+            res.status(500).json({
+                msg: err.message
+            })
         }
-    }
-
-}
+    }*/

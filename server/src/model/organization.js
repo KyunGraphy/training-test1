@@ -8,29 +8,29 @@ const organizationSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User'
     }],
-    Oname: {
+    OrganizationName: {
         type: String,
         required: true,
         maxlenght: 10
     },
-    Opassword: {
+    OrganizationPassword: {
         type: String,
         required: true,
         maxlenght: 10
     },
-    OLocation: {
+    OrganizationLocation: {
         type: String,
         required: true
     },
-    ODesc: {
+    OrganizationDesc: {
         type: String,
         required: true
     },
-    OMail: {
+    OrganizationMail: {
         type: String,
         required: true
     },
-    OUrlImg: {
+    OrganizationUrlImg: {
         type: String
     }
 

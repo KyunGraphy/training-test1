@@ -1,38 +1,23 @@
-const express = require('express');
 const jwt = require('../service/jwtHandler');
 const cloudinary = require('../service/cloudinaryConfig');
 const User = require('../model/user');
 const bcrypt = require('bcrypt');
 const saltRounds = 12;
-
-async function getUser(req, res, next) {
-    try {
-        const user = await User.findById(req.params.userName)
-        if (user == null) {
-            return res.status(404).json({ message: 'User not found' })
-        }
-    } catch (err) {
-        return res.status(500).json({ message: err.message })
-    }
-    res.user = User;
-    next();
-}
-
 module.exports = {
     register: async (req, res) => {
-        try{
-            let{
+        try {
+            let {
                 userName,
                 userPassword,
                 userFullName,
-                userFirstName, 
-                userLastName,  
-                userPhoneNumber, 
+                userFirstName,
+                userLastName,
+                userPhoneNumber,
                 userEmail,
             } = req.body;
             let urlImgOrg = await cloudinary.uploader.upload(req.file.path)
             let hashedPassword = bcrypt.hashSync(userPassword, saltRounds)
-            
+
             let newUser = new User({
                 userName: userName,
                 userPassword: hashedPassword,
@@ -41,16 +26,16 @@ module.exports = {
                 FullName: userFullName,
                 mail: userEmail,
                 phoneNo: userPhoneNumber,
-                projectList:[],
+                projectList: [],
                 avatar: urlImgOrg.url
-                
+
             });
             await newUser.save()
             return res.json({
                 message: "register success !",
                 user: newUser
             })
-        }catch(err){
+        } catch (err) {
             console.log(err);
             return res.status(500).json("Internal server error");
         }
@@ -58,52 +43,50 @@ module.exports = {
 
     //login
     login: async (req, res) => {
-        try{
+        try {
             let {
-                userName, 
+                userName,
                 userPassword
             } = req.body
             console.log(req.body);
-            let user = await User.findOne({ 
+            let user = await User.findOne({
                 username: userName
             }).lean();
-            if (!user){
-                return res.status(400).json({ 
-                    message: "User already exits!" 
+            if (!user) {
+                return res.status(400).json({
+                    message: "User already exits!"
                 });
             }
-            let tokens = await jwt.create(user._id)
+            //let tokens = await jwt.create(user._id)
             let password = user.userPassword
             let passwordcorrected = bcrypt.compareSync(userPassword, password);
-            if (!passwordcorrected){
-                return res.status(400).json({ 
+            if (!passwordcorrected) {
+                return res.status(400).json({
                     message: "Password incorrect!",
                 });
             } else {
-                return res.status(200).json({ 
+                return res.status(200).json({
                     message: "login successful!",
-                    accessToken: tokens.accessToken,
-                    refreshToken: tokens.refreshToken
+                    userData: user
                 });
             }
-        }
-        catch(err){
-            console.log(error);
+        } catch (err) {
+            console.log(err);
             return res.status(500).json("Internal server error");
         }
     },
 
     update: async (req, res) => {
-        try{
-            let{
+        try {
+            let {
                 userName,
                 userPassword,
                 userFullName,
-                userFirstName, 
-                userLastName,  
-                userPhoneNumber, 
+                userFirstName,
+                userLastName,
+                userPhoneNumber,
                 userEmail,
-            }= req.body;
+            } = req.body;
             if (userName !== null) {
                 res.getUser.uname = userName
             }
@@ -128,7 +111,9 @@ module.exports = {
             try {
                 const updatedUser = res.user.save()
                 res.json(updatedUser)
-                res.status(201).json({msg: 'Updated successfully'})
+                res.status(201).json({
+                    msg: 'Updated successfully'
+                })
             } catch (err) {
                 res.status(422).json("Unprocessable Entity");
             }
@@ -144,11 +129,11 @@ module.exports = {
                 userName: userName
             }).lean()
             user.remove()
-            return res.status(204).json({ 
-                message: 'User deleted successfully' 
+            return res.status(204).json({
+                message: 'User deleted successfully'
             });
         } catch (err) {
             return res.status(404).json("Internal server error");
+        }
     }
-}
 }
