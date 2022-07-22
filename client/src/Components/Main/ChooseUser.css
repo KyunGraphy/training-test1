@@ -10,7 +10,7 @@
     width: 50%;
     height: 50%;
     overflow: hidden;
-    /* float: left; */
+    float: left;
     text-align: center;
     justify-content: center;
     align-items: center;
@@ -30,16 +30,16 @@
     margin-top: 50px;
 }
 
-.illustration-wrapper {
+/* .illustration-wrapper {
     position: relative;
     left: 50%;
-
-}
+} */
 
 .illustration__image--person {
     display: block;
     width: 50%;
     height: 50%;
+    margin-left: 760px;
 
 }
 
@@ -60,6 +60,7 @@
     color: #fff;
     left: 90px;
     top: 50%;
+    margin-left: 760px;
 }
 
 .choose-user__buttons--button--spu {

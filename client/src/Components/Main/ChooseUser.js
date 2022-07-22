@@ -1,8 +1,6 @@
 import React from "react";
-import { Route, Routes, Router, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./ChooseUser.css";
-import Login from "./Login";
-import Registration from "./Registertration";
 
 function ChooseUser() {
   return (
@@ -20,7 +18,7 @@ function ChooseUser() {
                 </Link>
               </div>
               <div class="choose-user__buttons">
-                <Link to="/Regis">
+                <Link to="/Login">
                   <button class="choose-user__buttons--button--ppu">
                     Organization
                   </button>
