@@ -1,14 +1,14 @@
 import { useState } from "react";
 import "./App.css";
 
-import Navigation from "./Components/Main/Navigation";
+import Navigation from "./Components/MainPage/Navigation";
 import Login from "./Components/Auth/Login";
 import { Route, Routes,Link } from "react-router-dom";
 import Main from "./Main";
 import Registration from "./Components/Auth/Registertration";
 import Detail from "./Detail";
-import Profile from "./Components/Profile/Profile";
-import ChooseUser from "./Components/Main/ChooseUser";
+import Profile from "./Components/ProfilePage/Profile";
+import ChooseUser from "./Components/MainPage/ChooseUser";
 
 function App() {
   const [login, setLogin] = useState(true);

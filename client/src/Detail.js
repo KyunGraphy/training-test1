@@ -1,11 +1,11 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import Content from './Components/Detail/Content';
-import Overview from './Components/Detail/Overview'
-import Navigation from './Components/Main/Navigation';
+import Content from './Components/DetailPage/Content';
+import Overview from './Components/DetailPage/Overview'
+import Navigation from './Components/MainPage/Navigation';
 import { Link } from 'react-router-dom';
-import Project from './Components/Main/Project';
+import Project from './Components/MainPage/Project';
 
 
 function Detail({ prjAPI }) {
