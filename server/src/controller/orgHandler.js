@@ -17,7 +17,7 @@ module.exports = {
             let urlImgOrg = await cloudinary.uploader.upload(req.file.path)
 
             let existedOrgName = await Org.findOne({
-                Oname: orgName
+                OrganizationName: orgName
             }).lean()
             if (existedOrgName) {
                 return res.status(400).json({
@@ -51,12 +51,12 @@ module.exports = {
                 })
             }
             let newOrg = new Org({
-                Oname: orgName,
-                Opassword: hashPassword,
-                OLocation: orgLocation,
-                ODesc: orgDesc,
-                OMail: orgMail,
-                OUrlImg: urlImgOrg.url,
+                OrganizationName: orgName,
+                OrganizationPassword: hashPassword,
+                OrganizationLocation: orgLocation,
+                OrganizationDesc: orgDesc,
+                OrganizationMail: orgMail,
+                OrganizationUrlImg: urlImgOrg.url,
                 projectList: [],
                 userList: []
             })
@@ -83,14 +83,14 @@ module.exports = {
             } = req.body
             console.log(req.body)
             let org = await Org.findOne({
-                Oname: orgName
+                OrganizationName: orgName
             }).lean()
             if (!org) {
                 return res.status(400).json({
                     msg: 'Incorrect password or OrganizationName'
                 })
             }
-            let password = org.Opassword
+            let password = org.OrganizationPassword
             let checkPassword = bcrypt.compareSync(orgPassword, password)
 
             let tokens = await jwt.create(org._id)

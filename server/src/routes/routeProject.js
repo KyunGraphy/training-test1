@@ -6,7 +6,7 @@ const routeProject = (app) => {
     route.get('/FindUserProject', prjHandler.findAllProjectOfUser)
     route.get('/FindOrgProject', prjHandler.findAllProjectOfOrg)
     route.get('/FindAllUserInOrgn', prjHandler.findAllUserOfOrg)*/
-    route.get('/FindAllProject', projectHandler.findAll)
+    route.get('/FindAllProject', projectHandler.findAllProject)
     return app.use('/project', route)
  
 }
