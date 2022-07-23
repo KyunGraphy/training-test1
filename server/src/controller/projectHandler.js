@@ -2,6 +2,23 @@ const Project = require('../model/project')
 const Org = require('../model/organization')
 const User = require('../model/user')
 const cloudinary = require('../service/cloudinaryConfig')
+let getProjectListOfUser = async (user) => {
+    let allProject = await Promise.all(user.projectList.map(async (item) => {
+        let project = await Project.findOne({
+            _id: item
+        })
+        return {
+            id: project._id,
+            image: project.projectImage,
+            title: project.projectTitle,
+            ava: user.avatar,
+            author: user.userName,
+            address: project.projectAddress,
+            deadline: project.projectDeadline
+        }
+    }))
+    return allProject
+}
 module.exports = {
     addUsertoOrg: async (req, res) => {
         try {
@@ -85,27 +102,10 @@ module.exports = {
             let {
                 userName
             } = req.body
-            let projectList = await Project.find({
-                where: {
-                    userName
-                }
+            let user = await User.findOne({
+                userName
             })
-            let allProject = await Promise.all(projectList.map(async (item) => {
-                let user = await User.findOne({
-                    where: {
-                        userName
-                    }
-                })
-                return {
-                    id: item._id,
-                    image: item.projectImage,
-                    title: item.projectTitle,
-                    ava: user.avatar,
-                    author: user.userName,
-                    address: item.projectAddress,
-                    deadline: item.projectDeadline
-                }
-            }))
+            let allProject = await getProjectListOfUser(user)
             return res.status(200).json({
                 projectList: allProject
             })
@@ -118,22 +118,15 @@ module.exports = {
     },
     findAllProject: async (req, res) => {
         try {
-            let projectList = await Project.find()
-            let allProject = await Promise.all(projectList.map(async (item) => {
-                let user = await User.findById(item.projectAuthor)
-                
-                return {
-                    id: item._id,
-                    image: item.projectImage,
-                    title: item.projectTitle,
-                    ava: user.avatar,
-                    author: user.userName,
-                    address: item.projectAddress,
-                    deadline: item.projectDeadline
-                }
+            let user = await User.find()
+            let allProject = []
+            await Promise.all(user.map(async(index)=>{
+                let projectOfUser = await getProjectListOfUser(index)
+                allProject.push(...projectOfUser)
             }))
+
             return res.status(200).json({
-                projectList: allProject
+                prjectList: allProject
             })
         } catch (err) {
             console.log(err)

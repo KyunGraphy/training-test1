@@ -20,6 +20,5 @@ app.use(express.urlencoded({
 routeOrg(app)
 routeProject(app)
 routeUser(app)
-
 connectDB.connect()
 app.listen(port, () => console.log(`port : ${port}`))
