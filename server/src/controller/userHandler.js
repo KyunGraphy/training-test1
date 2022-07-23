@@ -47,9 +47,9 @@ module.exports = {
                 userPassword
             } = req.body
             console.log(req.body);
-            let user = await User.findOne(
-                {userName: userName}
-            ).lean();
+            let user = await User.findOne({
+                userName: userName
+            }).lean();
             if (!user) {
                 return res.status(400).json({
                     message: "User already exits!"
