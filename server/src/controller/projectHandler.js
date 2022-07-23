@@ -56,7 +56,6 @@ module.exports = {
                 projectAddress,
                 projectDeadline
             } = req.body
-            console.log(req.body)
             let urlImgOrg = await cloudinary.uploader.upload(req.file.path)
             let project = new Project({
                 projectTitle: projectTitle,
@@ -74,7 +73,6 @@ module.exports = {
                     projectList: project._id
                 }
             })
-            console.log('user ', userCreatePro)
             return res.status(200).json({
                 message: 'Create project success',
                 user: userCreatePro
@@ -89,7 +87,6 @@ module.exports = {
     findAll: async (req, res) => {
         try {
             let projectList = await Project.find().lean()
-
             res.status(200).json(projectList)
         } catch (err) {
             res.status(500).json({
@@ -106,6 +103,7 @@ module.exports = {
                 userName
             })
             let allProject = await getProjectListOfUser(user)
+            console.log(user)
             return res.status(200).json({
                 projectList: allProject
             })
@@ -120,7 +118,7 @@ module.exports = {
         try {
             let user = await User.find()
             let allProject = []
-            await Promise.all(user.map(async(index)=>{
+            await Promise.all(user.map(async (index) => {
                 let projectOfUser = await getProjectListOfUser(index)
                 allProject.push(...projectOfUser)
             }))
