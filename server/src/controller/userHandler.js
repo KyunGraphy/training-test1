@@ -16,7 +16,6 @@ module.exports = {
             } = req.body;
             let urlImgOrg = await cloudinary.uploader.upload(req.file.path)
             let hashedPassword = bcrypt.hashSync(userPassword, saltRounds)
-
             let newUser = new User({
                 userName: userName,
                 userPassword: hashedPassword,

@@ -50,10 +50,17 @@ module.exports = {
                 projectDeadline: projectDeadline,
             })
             await project.save()
-            let userCreatePro = await User.findOneAndUpdate({_id:userID},{$push:{projectList:project._id}})
-            console.log('user ',userCreatePro)
+            let userCreatePro = await User.findOneAndUpdate({
+                _id: userID
+            }, {
+                $push: {
+                    projectList: project._id
+                }
+            })
+            console.log('user ', userCreatePro)
             return res.status(200).json({
-                message: 'Create project success'
+                message: 'Create project success',
+                user: userCreatePro
             })
         } catch (err) {
             console.log(err)
@@ -65,14 +72,75 @@ module.exports = {
     findAll: async (req, res) => {
         try {
             let projectList = await Project.find().lean()
-             
+
             res.status(200).json(projectList)
         } catch (err) {
             res.status(500).json({
                 msg: err.message
             })
         }
+    },
+    findAllProjectOfUser: async (req, res) => {
+        try {
+            let {
+                userName
+            } = req.body
+            let projectList = await Project.find({
+                where: {
+                    userName
+                }
+            })
+            let allProject = await Promise.all(projectList.map(async (item) => {
+                let user = await User.findOne({
+                    where: {
+                        userName
+                    }
+                })
+                return {
+                    id: item._id,
+                    image: item.projectImage,
+                    title: item.projectTitle,
+                    ava: user.avatar,
+                    author: user.userName,
+                    address: item.projectAddress,
+                    deadline: item.projectDeadline
+                }
+            }))
+            return res.status(200).json({
+                projectList: allProject
+            })
+        } catch (err) {
+            console.log(err)
+            return res.status(500).json({
+                error: err
+            })
+        }
+    },
+    findAllProject: async (req, res) => {
+        try {
+            let projectList = await Project.find()
+            let allProject = await Promise.all(projectList.map(async (item) => {
+                let user = await User.findById(item.projectAuthor)
+                
+                return {
+                    id: item._id,
+                    image: item.projectImage,
+                    title: item.projectTitle,
+                    ava: user.avatar,
+                    author: user.userName,
+                    address: item.projectAddress,
+                    deadline: item.projectDeadline
+                }
+            }))
+            return res.status(200).json({
+                projectList: allProject
+            })
+        } catch (err) {
+            console.log(err)
+            return res.status(500).json({
+                error: err
+            })
+        }
     }
-}
 
-    
+}
