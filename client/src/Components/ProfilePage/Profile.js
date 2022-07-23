@@ -5,6 +5,7 @@ import Info from "./Info";
 import "./styles/Profile.css";
 import ProjectList from "./ProjectList";
 import SkeletonLoading from "./SkeletonLoading";
+import Navigation from "../MainPage/Navigation";
 
 function Profile() {
     const [loading, setLoading] = useState(false);
@@ -16,6 +17,7 @@ function Profile() {
     } else {
         return (
             <div className="profile">
+                <Navigation />
                 <div className="profile-info">
                     <Info />
                     <Contact />
